@@ -6,9 +6,9 @@ namespace Kolokwium1.Services;
 
 public interface IDbService
 {
-    public Task<List<Perscription>?> GetPerscriptions(string docName);
-    public Task<int> GetDocId(string docName);
-    public Task<Perscription?> AddPerscription(Perscription perscription);
+    public Task<List<Perscription>?> GetPerscriptionsAsync(string docName);
+    public Task<int> GetDocIdAsync(string docName);
+    public Task<Perscription?> AddPerscriptionAsync(Perscription perscription);
 }
 
 public class DbService : IDbService
@@ -26,7 +26,7 @@ public class DbService : IDbService
         return connection;
     }
 
-    public async Task<int> GetDocId(string docName)
+    public async Task<int> GetDocIdAsync(string docName)
     {
         await using var connection = await GetConnection();
 
@@ -47,14 +47,14 @@ public class DbService : IDbService
         return docId;
     }
 
-    public async Task<List<Perscription>> GetPerscriptions(string docName)
+    public async Task<List<Perscription>> GetPerscriptionsAsync(string docName)
     {
         await using var connection = await GetConnection();
         var getPerscriptionCommand = new SqlCommand();
         getPerscriptionCommand.Connection = connection;
 
         string commandText = null;
-        int docId = await GetDocId(docName);
+        int docId = await GetDocIdAsync(docName);
 
         if (docName == null)
         {
@@ -98,7 +98,7 @@ public class DbService : IDbService
         return perscriptions;
     }
 
-    public async Task<Perscription?> AddPerscription(Perscription perscription)
+    public async Task<Perscription?> AddPerscriptionAsync(Perscription perscription)
     {
         try
         {
